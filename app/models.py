@@ -20,6 +20,13 @@ posts_tags = db.Table('posts_tags',
                       db.ForeignKey('tag.id'))
 )
 
+roles_users = db.Table('roles_users',
+                       db.Column('user_id', db.Integer,
+                       db.ForeignKey('user.id')),
+                       db.Column('role_id', db.Integer,
+                       db.ForeignKey('role.id'))
+                      )
+
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(140))
@@ -59,6 +66,8 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(255))
     activate = db.Column(db.Boolean)
+    roles = db.relationship('Role', secondary=roles_users,
+    backref=db.backref('users'), lazy='dynamic')
 
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
