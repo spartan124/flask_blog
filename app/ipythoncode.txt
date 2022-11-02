@@ -1,0 +1,45 @@
+
+In [1]: from app import db
+
+In [2]: from models import *
+
+In [3]: db.create_all()
+
+In [4]: p = Post(title='First post', body='First post body")
+  File "<ipython-input-4-2f384deb1320>", line 1
+    p = Post(title='First post', body='First post body")
+                                      ^
+SyntaxError: unterminated string literal (detected at line 1)
+
+
+In [5]: p = Post(title='First post', body='First post body')
+
+In [6]: p
+Out[6]: <Post id: None, title: First post>
+
+In [7]: p.id
+
+In [8]: db.session.add(p)
+
+In [9]: db.session.commit()
+
+In [10]: p.id
+Out[10]: 1
+
+In [11]: p
+Out[11]: <Post id: 1, title: First post>
+
+In [12]: p = Post(title='Second post', body='Second post body')
+
+In [13]: db.session.add(p)
+
+In [14]: db.session.commit()
+
+In [15]: p1= Post(title='The third!! post!', body='Third post body')
+
+In [16]: db.session.add(p1)
+
+In [17]: db.session.commit()
+
+In [18]: p1.slug
+Out[18]: 'The-third---post-'
