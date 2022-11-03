@@ -6,6 +6,10 @@ from flask_script import Manager
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
+
+from flask_security import SQLAlchemyUserDatastore
+from flask_security import Security
+
 from config import Config
 
 
@@ -25,3 +29,7 @@ manager.add_command('db', MigrateCommand)
 admin = Admin(app)
 admin.add_view(ModelView(Post, db.session))
 admin.add_view(ModelView(Tag, db.session))
+
+#Flask-Security
+user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+security = Security(app, user_datastore)
