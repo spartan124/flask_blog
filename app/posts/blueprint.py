@@ -4,7 +4,7 @@ from flask import request
 from flask import redirect
 from flask import url_for
 
-from flask_security import login_required
+from flask_login import login_required
 
 
 from models import *
@@ -14,7 +14,7 @@ from app import db
 posts = Blueprint('posts', __name__, template_folder='templates')
 
 @posts.route('/create', methods=['POST', 'GET'])
-@login_required
+# @login_required
 def post_create():
     form = PostForm()
 

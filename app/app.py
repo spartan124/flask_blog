@@ -9,9 +9,11 @@ from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
 
-from flask_security import SQLAlchemyUserDatastore
-from flask_security import Security
-from flask_security import current_user
+from flask_security import SQLAlchemyUserDatastore, Security
+from flask_security import UserMixin, RoleMixin, current_user
+from flask_login import LoginManager
+from flask_login import login_user, login_required, logout_user
+
 
 from config import Config
 
@@ -19,21 +21,35 @@ from config import Config
 
 app = Flask(__name__)
 app.config.from_object(Config)
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
+app.config['SECRET_KEY']='afkjasdfjnnfjhdfjjkfbs'
 
 db = SQLAlchemy(app)
 
 from models import *
 
+
 migrate = Migrate(app, db)
 manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
+#flask_login
+login_manager = LoginManager(app)
+login_manager.init_app(app)
+login_manager.login_view="login"
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+
 class AdminMixin:
     def is_accessible(self):
-        return current_user.has_role('admin')
+        return current_user.is_authenticated
 
     def inaccessible_callback(self, name, **kwargs):
-        return redirect(url_for('security.login',
+        return redirect(url_for('login',
         next=request.url))
 
 
@@ -57,7 +73,7 @@ class TagAdminView(AdminMixin, BAseModelView):
     pass
 
 
-admin = Admin(app, 'FlaskApp', url='/',
+admin = Admin(app, 'Blogify', url='/',
 index_view=HomeAdminView(name='Home'))
 
 
@@ -66,4 +82,4 @@ admin.add_view(TagAdminView(Tag, db.session))
 
 #Flask-Security
 user_datastore = SQLAlchemyUserDatastore(db, User, Role)
-security = Security(app, user_datastore)
+# security = Security(app, user_datastore)

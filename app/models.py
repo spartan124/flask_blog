@@ -3,7 +3,7 @@ from time import time
 
 import re
 
-from flask_security import UserMixin, RoleMixin
+from flask_security import UserMixin, RoleMixin, current_user
 from app import db
 
 
@@ -69,6 +69,9 @@ class Tag(db.Model):
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
+    firstname = db.Column(db.String(30), nullable=False)
+    lastname = db.Column(db.String(30), nullable=False)
+    username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(100), unique=True)
     password = db.Column(db.String(255))
     active = db.Column(db.Boolean)
