@@ -1,22 +1,57 @@
 {% extends 'base.html' %}
 
-
 {% block title %}
     Create new post
 {% endblock %}
 
 {% block content %}
+{% for message in get_flashed_messages() %}
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
 
-    <h1>Create new post</h1>
-    <form action="{{ url_for('posts.post_create') }}"
-    method="POST">
+{% if current_user.is_authenticated %}
 
-        {% for field in form %}
-            <div class="form-group">
-              {{ field.label() }}
-              {{ field(class="form-control") }}
-            </div>
-        {% endfor %}
-        <button class="btn btn-primary">Submit</button>
-    </form>
+<h1>Add Blog Post...</h1>
+	<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<form method="POST">
+		{{ form.hidden_tag() }}
+
+		{{ form.title.label(class="form-label") }}
+
+		{{ form.title(class="form-control") }}
+		<br/>
+
+		{{ form.body.label(class="form-label") }}
+
+		{{ form.body(class="form-control", rows="10") }}
+		<br/>
+
+    {{form.author.label(class="form-label") }}
+
+    {{ form.author(class="form-control") }}
+    <br/>
+
+    {{ form.submit(class="btn btn-secondary") }}
+
+
+
+
+	</form>
+	{{ ckeditor.load() }}
+ 	{{ ckeditor.config(name='content') }}
+
+</div>
+{% else %}
+<h2>Must Be Logged In...</h2>
+<p>Sorry, You must be logged in to access this page!</p>
+
+<a href="{{ url_for('login') }}">Login Here</a>
+
+{% endif %}
+
+
 {% endblock %}
