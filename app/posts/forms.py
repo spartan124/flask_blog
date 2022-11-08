@@ -1,26 +1,26 @@
 from wtforms import Form, StringField, TextAreaField, BooleanField, PasswordField, ValidationError, validators, SubmitField
+from wtforms.validators import DataRequired, EqualTo, Length
 from flask_wtf import FlaskForm
+from wtforms.widgets import TextArea
+from flask_ckeditor import CKEditorField
 from models import *
 from app import *
 from views import *
 
-class PostForm(Form):
-    title = StringField('Title')
-    body = TextAreaField('Body')
+class PostForm(FlaskForm):
+    title = StringField('Title', validators=[DataRequired()])
+    body = CKEditorField('Body', validators=[DataRequired()])
+    author = StringField('Author')
+    submit = SubmitField("Post")
 
 
 class RegisterForm(FlaskForm):
-    firstname = StringField([validators.Length(min=4, max=25)],
-                            render_kw={"placeholder": "First name"})
-    lastname = StringField([validators.Length(min=4, max=25)],
-                            render_kw={"placeholder": "Last name"})
-    username = StringField([validators.Length(min=4, max=25)],
-                            render_kw={"placeholder": "Username"})
-    email = StringField([validators.Length(min=6, max=35)], render_kw={"placeholder": "Email address"})
-    password = PasswordField([validators.DataRequired(), validators.EqualTo
-    ('confirm', message='Passwords must match')], render_kw=
-                            {"placeholder": "Password"})
-    confirm = PasswordField(render_kw={"placeholder": "Repeat Password"})
+    firstname = StringField("First Name", validators=[DataRequired()])
+    lastname = StringField("Last Name", validators=[DataRequired()])
+    username = StringField("Username", validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    password_hash = PasswordField('Password', validators=[DataRequired(), EqualTo('confirm', message='Passwords Must Match!')])
+    confirm =  PasswordField('Confirm Password', validators=[DataRequired()])
     submit = SubmitField("Register")
 
     def validate_username(self, username):
@@ -31,10 +31,13 @@ class RegisterForm(FlaskForm):
             "That username already exists. Please choose a different one."
             )
 class LoginForm(FlaskForm):
-    email = StringField([validators.Length(min=6, max=35)],
-    render_kw={"placeholder": "Email address"})
+    email = StringField("Email", validators=[DataRequired()])
 
-    password = PasswordField([validators.DataRequired(), validators.EqualTo
-    ('confirm', message='Passwords must match')], render_kw= {"placeholder": "Password"})
+    password = PasswordField("Password", validators=[DataRequired()])
 
     submit = SubmitField("Login")
+
+class PasswordForm(FlaskForm):
+	email = StringField("What's Your Email", validators=[DataRequired()])
+	password_hash = PasswordField("What's Your Password", validators=[DataRequired()])
+	submit = SubmitField("Submit")
