@@ -14,6 +14,14 @@ class PostForm(FlaskForm):
     submit = SubmitField("Post")
 
 
+class ContactForm(FlaskForm):
+    fullname = StringField('Full Name', validators=[DataRequired()])
+    email = StringField("Email", validators=[DataRequired()])
+    subject = StringField("Subject", validators=[DataRequired()])
+    message = TextAreaField("Message", validators=[DataRequired()])
+    submit = SubmitField("Send Message")
+
+
 class RegisterForm(FlaskForm):
     firstname = StringField("First Name", validators=[DataRequired()])
     lastname = StringField("Last Name", validators=[DataRequired()])
