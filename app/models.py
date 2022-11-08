@@ -84,3 +84,25 @@ class User(db.Model, UserMixin):
 class Role(db.Model, RoleMixin):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), unique=True)
+
+class ContactUs(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fullname = db.Column(db.String(50), nullable=False)
+    email = db.Column(db.String(30), nullable=False)
+    subject = db.Column(db.String(50), nullable=False)
+    message = db.Column(db.Text)
+    created_on = db.Column(db.DateTime, default=datetime.now())
+    slug = db.Column(db.String(140), unique=True)
+
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.generate_slug()
+    #
+    # def generate_slug(self):
+    #     if self.title:
+    #         self.slug = slugify(self.title)
+    #     else:
+    #         self.slug =str(int(time()))
+    #
+    # def __repr__(self):
+    #     return f'<ContactUs id: {self.id}, subject: {self.subject}>'
