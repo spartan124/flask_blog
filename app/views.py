@@ -79,7 +79,37 @@ def register():
         flash("User Added Successfully!")
 
     our_users = User.query.order_by(User.date_added)
+    redirect(url_for('login'))
     return render_template('register.html', form=form)
+
+@app.route('/about', methods=['GET', 'POST'])
+def about():
+    return render_template('about.html')
+
+
+@app.route('/contact', methods=['GET', 'POST'])
+def contact_us():
+    form = ContactForm()
+
+    if request.method == 'POST':
+        fullname = request.form.get('fullname')
+        email = request.form.get('email')
+        subject = request.form.get('subject')
+        message = request.form.get('message')
+
+        try:
+            contact = ContactUs(fullname=fullname, email=email,
+                            subject=subject, message=message)
+            db.session.add(contact)
+            db.session.commit()
+
+            flash("Message Sent Successfull")
+        except:
+            print('Very long traceback error')
+        return redirect(url_for('contact_us'))
+
+    return render_template('contact.html', form=form)
+
 
 
 @app.errorhandler(404)
