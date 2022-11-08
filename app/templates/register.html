@@ -1,5 +1,9 @@
 {% extends 'base.html' %}
 
+{% block title %}
+		Sign Up
+{% endblock %}
+
 
 {% block content %}
 
@@ -12,8 +16,8 @@
 {% endfor %}
 
 
-<h1>{{ ('Register') }}</h1>
-<h1>User List:</h1>
+<h2>{{ ('Create Your Profile') }}</h2>
+
 	<br/>
 <div class="shadow p-3 mb-5 bg-body rounded">
 	<form method="POST">
@@ -50,11 +54,13 @@
 		<br/>
 
 		{{ form.submit(class="btn btn-secondary") }}
-
-
+		<br/>
+		<br/>
+		<a href="{{ url_for('login') }}">Already have an account? Sign in</a>
+		<br/>
 	</form>
 </div>
 <br/><br/><br/>
 
-<a href="{{ url_for('login') }}">Already have an account? Sign in</a>
+
 {% endblock %}
