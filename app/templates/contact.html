@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% block title %}
+    Contact Us
+{% endblock %}
+
+
+{% block content %}
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+<h1>{{ ('Contact Us') }}</h1>
+{{ ('Drop a message for inquiry and feedback') }}
+<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+<form method="POST">
+  {{ form.hidden_tag() }}
+
+  {{ form.fullname.label(class="form-label") }}
+
+  {{ form.fullname(class="form-control") }}
+  <br/>
+
+  {{ form.email.label(class="form-label") }}
+
+  {{ form.email(class="form-control") }}
+  <br/>
+
+  {{ form.subject.label(class="form-label") }}
+
+  {{ form.subject(class="form-control") }}
+  <br/>
+
+  {{ form.message.label(class="form-label") }}
+
+  {{ form.message(class="form-control") }}
+  <br/>
+
+  {{ form.submit(class="btn btn-secondary") }}
+
+
+</form>
+</div>
+<br/><br/><br/>
+
+{% endblock%}
