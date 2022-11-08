@@ -14,7 +14,7 @@ from app import db
 posts = Blueprint('posts', __name__, template_folder='templates')
 
 @posts.route('/create', methods=['POST', 'GET'])
-# @login_required
+@login_required
 def post_create():
     form = PostForm()
 
