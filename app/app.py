@@ -10,16 +10,17 @@ from flask_admin.contrib.sqla import ModelView
 from flask_admin import AdminIndexView
 
 from flask_security import SQLAlchemyUserDatastore, Security
-from flask_security import UserMixin, RoleMixin, current_user
+from flask_security import RoleMixin
 from flask_login import LoginManager
-from flask_login import login_user, login_required, logout_user
-
+from flask_login import UserMixin, login_user, login_required, logout_user, current_user
+from flask_ckeditor import CKEditor
 
 from config import Config
 
 
 
 app = Flask(__name__)
+ckeditor = CKEditor(app)
 app.config.from_object(Config)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
 app.config['SECRET_KEY']='afkjasdfjnnfjhdfjjkfbs'
