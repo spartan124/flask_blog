@@ -3,18 +3,58 @@
 
 {% block content %}
 
+{% for message in get_flashed_messages() %}
+
+	<div class="alert alert-warning alert-dismissible fade show" role="alert">
+	  {{ message }}
+	  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+	</div>
+{% endfor %}
+
+
 <h1>{{ ('Register') }}</h1>
-<form class="" action="" method="POST" name="register_user_form">
-  {{ form.hidden_tag() }}
-  {{ form.firstname }}
-  {{ form.lastname }}
-  {{ form.username }}
-  {{ form.email }}
-  {{ form.password }}
-  {{ form.confirm }}
-  {{ form.accept_tos }}
-  {{ form.submit}}
-</form>
+<h1>User List:</h1>
+	<br/>
+<div class="shadow p-3 mb-5 bg-body rounded">
+	<form method="POST">
+		{{ form.hidden_tag() }}
+
+		{{ form.firstname.label(class="form-label") }}
+
+		{{ form.firstname(class="form-control") }}
+		<br/>
+
+    {{ form.lastname.label(class="form-label") }}
+
+		{{ form.lastname(class="form-control") }}
+		<br/>
+
+		{{ form.username.label(class="form-label") }}
+
+		{{ form.username(class="form-control") }}
+		<br/>
+
+		{{ form.email.label(class="form-label") }}
+
+		{{ form.email(class="form-control") }}
+		<br/>
+
+		{{ form.password_hash.label(class="form-label") }}
+
+		{{ form.password_hash(class="form-control") }}
+		<br/>
+
+		{{ form.confirm.label(class="form-label") }}
+
+		{{ form.confirm(class="form-control") }}
+		<br/>
+
+		{{ form.submit(class="btn btn-secondary") }}
+
+
+	</form>
+</div>
+<br/><br/><br/>
 
 <a href="{{ url_for('login') }}">Already have an account? Sign in</a>
 {% endblock %}
