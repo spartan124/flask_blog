@@ -3,7 +3,8 @@ from time import time
 
 import re
 
-from flask_security import UserMixin, RoleMixin, current_user
+from flask_login import UserMixin, current_user
+from flask_security import RoleMixin
 from app import db
 
 
@@ -32,6 +33,7 @@ class Post(db.Model):
     title = db.Column(db.String(140))
     slug = db.Column(db.String(140), unique=True)
     body = db.Column(db.Text)
+    author = db.Column(db.String(50))
     created = db.Column(db.DateTime, default=datetime.now())
     tags = db.relationship('Tag', secondary=posts_tags,
     backref=db.backref('posts'), lazy='dynamic')
@@ -73,8 +75,9 @@ class User(db.Model, UserMixin):
     lastname = db.Column(db.String(30), nullable=False)
     username = db.Column(db.String(30), nullable=False, unique=True)
     email = db.Column(db.String(100), unique=True)
-    password = db.Column(db.String(255))
+    password_hash = db.Column(db.String(255))
     active = db.Column(db.Boolean)
+    date_added = db.Column(db.DateTime, default=datetime.now())
     roles = db.relationship('Role', secondary=roles_users,
     backref=db.backref('users'), lazy='dynamic')
 
