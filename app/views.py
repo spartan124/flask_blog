@@ -103,7 +103,7 @@ def contact_us():
             db.session.add(contact)
             db.session.commit()
 
-            flash("Message Sent Successfull")
+            flash("Message Sent Successfully")
         except:
             print('Very long traceback error')
         return redirect(url_for('contact_us'))
