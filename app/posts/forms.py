@@ -2,14 +2,14 @@ from wtforms import Form, StringField, TextAreaField, BooleanField, PasswordFiel
 from wtforms.validators import DataRequired, EqualTo, Length
 from flask_wtf import FlaskForm
 from wtforms.widgets import TextArea
-from flask_ckeditor import CKEditorField
+# from flask_ckeditor import CKEditorField
 from models import *
 from app import *
 from views import *
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
-    body = CKEditorField('Body', validators=[DataRequired()])
+    body = TextAreaField('Body', validators=[DataRequired()])
     author = StringField('Author')
     submit = SubmitField("Post")
 
@@ -38,6 +38,12 @@ class RegisterForm(FlaskForm):
             raise ValidationError(
             "That username already exists. Please choose a different one."
             )
+    def validate_email(self, email):
+        existing_email= User.query.filter_by(
+        email=email.data).first()
+        if existing_email:
+            raise ValidationError("That email already exists. Log in or use a different email ")
+
 class LoginForm(FlaskForm):
     email = StringField("Email", validators=[DataRequired()])
 
