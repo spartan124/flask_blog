@@ -13,14 +13,14 @@ from flask_security import SQLAlchemyUserDatastore, Security
 from flask_security import RoleMixin
 from flask_login import LoginManager
 from flask_login import UserMixin, login_user, login_required, logout_user, current_user
-from flask_ckeditor import CKEditor
+# from flask_ckeditor import CKEditor
 
 from config import Config
 
 
 
 app = Flask(__name__)
-ckeditor = CKEditor(app)
+# ckeditor = CKEditor(app)
 app.config.from_object(Config)
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///database.db'
 app.config['SECRET_KEY']='afkjasdfjnnfjhdfjjkfbs'
@@ -61,26 +61,34 @@ class AdminView(AdminMixin, ModelView):
 class HomeAdminView(AdminMixin, AdminIndexView):
     pass
 
-class BAseModelView(ModelView):
+class BaseModelView(ModelView):
     def on_model_change(self, form, model, is_created):
         if is_created:
             model.generate_slug()
         return super().on_model_change(form, model,
          is_created)
-class PostAdminView(AdminMixin, BAseModelView):
+class PostAdminView(AdminMixin, BaseModelView):
     form_columns = ['title', 'body', 'tags']
 
-class TagAdminView(AdminMixin, BAseModelView):
+class TagAdminView(AdminMixin, BaseModelView):
     pass
-
-
+class UserAdminView(AdminMixin, BaseModelView):
+    pass
+class ContactAdminView(AdminMixin, BaseModelView):
+    pass
+class RoleAdminView(AdminMixin, BaseModelView):
+    pass
 admin = Admin(app, 'Blogify', url='/',
 index_view=HomeAdminView(name='Home'))
 
 
 admin.add_view(PostAdminView(Post, db.session))
 admin.add_view(TagAdminView(Tag, db.session))
+admin.add_view(ContactAdminView(ContactUs, db.session))
+admin.add_view(UserAdminView(User, db.session))
+admin.add_view(RoleAdminView(Role, db.session))
+
 
 #Flask-Security
-user_datastore = SQLAlchemyUserDatastore(db, User, Role)
+# user_datastore = SQLAlchemyUserDatastore(db, User, Role)
 # security = Security(app, user_datastore)
