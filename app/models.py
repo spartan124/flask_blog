@@ -4,15 +4,13 @@ from time import time
 import re
 
 from flask_login import UserMixin, current_user
-from flask_security import RoleMixin
+
 from app import db
 
 
 
 
-def slugify(s):
-    pattern = r'[^\w+]'
-    return re.sub(pattern, '-', s)
+
 
 posts_tags = db.Table('posts_tags',
                       db.Column('post_id', db.Integer,
