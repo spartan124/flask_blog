@@ -3,7 +3,7 @@ from flask import redirect, url_for, request
 from flask_sqlalchemy import SQLAlchemy
 
 from flask_migrate import Migrate, MigrateCommand
-from flask_script import Manager
+# from flask_script import Manager
 
 from flask_admin import Admin
 from flask_admin.contrib.sqla import ModelView
@@ -31,8 +31,8 @@ from models import *
 
 
 migrate = Migrate(app, db)
-manager = Manager(app)
-manager.add_command('db', MigrateCommand)
+# manager = Manager(app)
+# manager.add_command('db', MigrateCommand)
 
 #flask_login
 login_manager = LoginManager(app)
