@@ -1,6 +1,6 @@
 from ..utils import db
 from flask_login import UserMixin
-from models import roles_users
+from ..models import roles_users
 from datetime import datetime
 
 class User(db.Model, UserMixin):
