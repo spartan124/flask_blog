@@ -1,15 +1,9 @@
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
-
+from flask import Blueprint, redirect, render_template, request, url_for
 from flask_login import login_required
 
-
-from models import *
-from .forms import PostForm
-from app import db
+from ..forms import PostForm
+from ..models import *
+from ..utils import db, save_to_db
 
 posts = Blueprint('posts', __name__, template_folder='templates')
 
@@ -24,8 +18,7 @@ def post_create():
 
         try:
             post = Post(title=title, body=body)
-            db.session.add(post)
-            db.session.commit()
+            save_to_db(post)
         except:
             print('Very long traceback error')
         return redirect(url_for('posts.post_detail',
