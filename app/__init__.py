@@ -1,5 +1,4 @@
-from .auth import (ContactAdminView, HomeAdminView, PostAdminView,
-                  RoleAdminView, TagAdminView, UserAdminView)
+from .auth.admin import ContactAdminView, HomeAdminView, PostAdminView, RoleAdminView, TagAdminView, UserAdminView
 from .auth.users import auth
 from .config import config_dict
 from flask import Flask, render_template
@@ -52,5 +51,3 @@ def create_app(config=config_dict['dev']):
     return app
 
 
-    
-    
