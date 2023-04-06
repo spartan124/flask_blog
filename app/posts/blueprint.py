@@ -1,5 +1,5 @@
-from flask import Blueprint, redirect, render_template, request, url_for
-from flask_login import login_required
+from flask import Blueprint, redirect, flash, render_template, request, url_for
+from flask_login import login_required, current_user
 
 from ..forms import PostForm
 from ..models import *
@@ -77,3 +77,18 @@ def post_update(slug):
     form = PostForm(obj=post)
     return render_template('posts/edit.html', post=post,
     form=form)
+
+# @posts.route('/<int:id>/edit', methods=['GET', 'POST'])
+# @login_required
+# def edit_post(id):
+#     post = Post.query.get_or_404(id)
+#     if post.author.username != current_user:
+#         flash('You are not authorized to edit this post', 'danger')
+#         return redirect(url_for('posts.post', id=post.id))
+#     form = PostForm(obj=post)
+#     if form.validate_on_submit():
+#         form.populate_obj(post)
+#         db.session.commit()
+#         flash('Your post has been updated', 'success')
+#         return redirect(url_for('posts.post', id=post.id))
+#     return render_template('edit_post.html', form=form, post=post)

@@ -17,8 +17,8 @@ class Post(db.Model):
     title = db.Column(db.String(140))
     slug = db.Column(db.String(140), unique=True)
     body = db.Column(db.Text)
-    author = db.Column(db.String(50))
     created = db.Column(db.DateTime, default=datetime.now())
+    user_id = db.Column(db.Integer(), db.ForeignKey('user.id'), nullable=False)
     tags = db.relationship('Tag', secondary=posts_tags,
     backref=db.backref('posts'), lazy='dynamic')
 
