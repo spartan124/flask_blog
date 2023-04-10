@@ -3,14 +3,12 @@ from wtforms.validators import DataRequired, EqualTo, Length
 from flask_wtf import FlaskForm
 from wtforms.widgets import TextArea
 # from flask_ckeditor import CKEditorField
-from models import *
-from app import *
-from views import *
+from ..models import User
 
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     body = TextAreaField('Body', validators=[DataRequired()])
-    author = StringField('Author')
+    # author = StringField('Author')
     submit = SubmitField("Post")
 
 

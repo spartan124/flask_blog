@@ -1,15 +1,9 @@
-from flask import Blueprint
-from flask import render_template
-from flask import request
-from flask import redirect
-from flask import url_for
+from flask import Blueprint, redirect, flash, render_template, request, url_for
+from flask_login import login_required, current_user
 
-from flask_login import login_required
-
-
-from models import *
-from .forms import PostForm
-from app import db
+from ..forms import PostForm
+from ..models import *
+from ..utils import db, save_to_db
 
 posts = Blueprint('posts', __name__, template_folder='templates')
 
@@ -24,8 +18,7 @@ def post_create():
 
         try:
             post = Post(title=title, body=body)
-            db.session.add(post)
-            db.session.commit()
+            save_to_db(post)
         except:
             print('Very long traceback error')
         return redirect(url_for('posts.post_detail',
@@ -84,3 +77,18 @@ def post_update(slug):
     form = PostForm(obj=post)
     return render_template('posts/edit.html', post=post,
     form=form)
+
+# @posts.route('/<int:id>/edit', methods=['GET', 'POST'])
+# @login_required
+# def edit_post(id):
+#     post = Post.query.get_or_404(id)
+#     if post.author.username != current_user:
+#         flash('You are not authorized to edit this post', 'danger')
+#         return redirect(url_for('posts.post', id=post.id))
+#     form = PostForm(obj=post)
+#     if form.validate_on_submit():
+#         form.populate_obj(post)
+#         db.session.commit()
+#         flash('Your post has been updated', 'success')
+#         return redirect(url_for('posts.post', id=post.id))
+#     return render_template('edit_post.html', form=form, post=post)

@@ -1,3 +1,6 @@
 *venv
 *.env
 *__pycache__
+*database.db
+*migrations
+*db.sqlite3
